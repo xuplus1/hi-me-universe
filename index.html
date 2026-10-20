@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-CN" data-hi-me-mode="guest">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hi！Me — 无需账号，在这台设备上开始一份自己的书影音档案。">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#f4efe4">
+  <title>Hi！Me · 创建我的空宇宙</title>
+  <link rel="icon" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Shippori+Mincho+B1:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="paper-grain" aria-hidden="true"></div>
+  <div class="app-shell" id="appShell">
+    <aside class="sidebar" aria-label="主导航">
+      <button class="brand" data-page="home" aria-label="返回首页">
+        <span>Hi！</span><em>Me</em>
+      </button>
+
+      <nav class="main-nav">
+        <button class="nav-link is-active" data-page="home"><i>01</i><span>首页</span></button>
+        <button class="nav-link" data-page="timeline"><i>02</i><span>时间轴</span></button>
+        <button class="nav-link" data-page="universe"><i>03</i><span>宇宙</span></button>
+        <button class="nav-link" data-page="records"><i>04</i><span>记录</span></button>
+        <button class="nav-link muted" data-page="me"><i>05</i><span>我</span></button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <span class="tiny-orbit"></span>
+        <p>私人档案<br><b>2026 — ∞</b></p>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <section class="page page-home is-active" id="home" aria-labelledby="home-title">
+        <div class="home-copy">
+          <p class="eyebrow" id="homeDate">星期日 · 2026.10.11</p>
+          <h1 id="home-title">今天，<br>和什么相遇？</h1>
+
+          <section class="current-works" aria-label="正在相遇的作品">
+            <div class="work-label"><span></span>正在相遇 <small id="homeReadingCount">2 部作品</small></div>
+            <div class="home-works-list" id="homeWorksList"></div>
+          </section>
+        </div>
+
+        <button class="cosmos-window" data-page="universe" aria-label="进入我的宇宙">
+          <span class="orbit orbit-a"></span><span class="orbit orbit-b"></span>
+          <span class="window-star star-1"></span><span class="window-star star-2"></span><span class="window-star star-3"></span>
+          <span class="home-planet planet-one"><i></i></span>
+          <span class="home-planet planet-two"><i></i></span>
+          <span class="home-planet planet-three"><i></i></span>
+          <span class="window-date" id="homeWindowDate">10 · 11</span>
+          <span class="today-caption">我的今日</span>
+          <span class="enter-caption">进入宇宙 <b>↗</b></span>
+        </button>
+
+        <div class="margin-note note-one" id="homeNote">四世同堂 · 点亮 12 天<br>最近记录：10 月 10 日</div>
+        <div class="page-number">01 <span>/</span> 05</div>
+      </section>
+
+      <section class="page page-timeline" id="timeline" aria-labelledby="timeline-title">
+        <header class="paper-header">
+          <div>
+            <p class="eyebrow">TIME · 我的时间</p>
+            <h1 id="timeline-title">2026 年 10 月</h1>
+          </div>
+          <div class="month-switcher" aria-label="切换月份">
+            <button id="prevMonth" aria-label="上个月">←</button><span id="timelineMonthLabel">十月</span><button id="nextMonth" aria-label="下个月">→</button>
+          </div>
+        </header>
+
+        <div class="timeline-board">
+          <div class="timeline-axis-head">作品 / 日期</div>
+          <div class="timeline-axis" id="timelineAxis" aria-hidden="true"></div>
+          <div class="timeline-lanes" id="timelineLanes"></div>
+        </div>
+        <div class="timeline-key"><span><i></i>有记录的日期色块</span><span>色块之间的留白 = 没有点亮</span></div>
+        <div class="page-number">02 <span>/</span> 05</div>
+      </section>
+
+      <section class="page page-universe" id="universe" aria-labelledby="universe-title">
+        <div class="nebula nebula-a"></div><div class="nebula nebula-b"></div>
+        <header class="universe-head">
+          <div>
+            <p class="eyebrow">UNIVERSE · 自由生长</p>
+            <h1 id="universe-title">我的宇宙</h1>
+          </div>
+          <p>每一次相遇，<br>都让这里多一点生命。</p>
+        </header>
+
+        <div class="stars-field" aria-hidden="true"></div>
+
+        <div class="universe-objects" id="universeObjects"></div>
+
+        <div class="hover-card" id="hoverCard" role="dialog" aria-label="作品小卡">
+          <div class="hover-cover" id="hoverCover"><span>海<br>街<br>日<br>记</span></div>
+          <div>
+            <small id="hoverState">完成 · 成熟星球</small>
+            <h2 id="hoverTitle">海街日记</h2>
+            <p id="hoverQuote">“看完以后，想起了夏天。”</p>
+            <button id="hoverOpenDetail" data-open-detail="sea">打开这份记录 <span>↗</span></button>
+          </div>
+        </div>
+
+        <div class="universe-legend">
+          <span><i class="legend-dot seed-dot"></i>想看 · 种子</span>
+          <span><i class="legend-dot grow-dot"></i>相遇中 · 生长</span>
+          <span><i class="legend-dot mature-dot"></i>完成 · 成熟</span>
+          <span><i class="legend-dot pause-dot"></i>暂时停泊</span>
+        </div>
+
+        <button class="add-work" id="addWork" aria-label="添加作品"><span>＋</span><b>添加作品</b></button>
+        <div class="page-number">03 <span>/</span> 05</div>
+      </section>
+
+      <section class="page page-records" id="records" aria-labelledby="records-title">
+        <header class="records-head">
+          <div><p class="eyebrow">WORKS · 我的记录</p><h1 id="records-title">作品档案</h1></div>
+          <button class="paper-add" id="recordsAddWork"><span>＋</span> 添加作品</button>
+        </header>
+        <div class="record-filters" id="recordFilters" aria-label="筛选作品">
+          <button class="is-active" data-filter="all">全部</button>
+          <button data-filter="wish">想看</button>
+          <button data-filter="reading">在看</button>
+          <button data-filter="done">完成</button>
+          <button data-filter="paused">停泊</button>
+        </div>
+        <div class="records-grid" id="recordsGrid"></div>
+        <div class="records-empty" id="recordsEmpty" hidden>这里还没有作品。<button id="emptyAddWork">添加第一部作品</button></div>
+        <div class="page-number">04 <span>/</span> 05</div>
+      </section>
+
+      <section class="page page-detail" id="detail" aria-labelledby="detail-title">
+        <header class="detail-head">
+          <button class="back-link" id="detailBack" data-page="universe">← 回到宇宙</button>
+          <p class="eyebrow" id="detailArchive">WORK · 作品档案 0037</p>
+        </header>
+
+        <div class="detail-grid">
+          <aside class="work-profile">
+            <div class="large-cover" id="detailCover"><span>海街日记</span><i>UMIMACHI DIARY</i></div>
+            <p class="work-kind" id="detailKind">电影 · 2015</p>
+            <h1 id="detail-title">海街日记</h1>
+            <p class="creator" id="detailCreator">是枝裕和</p>
+            <div class="status-row editable-row">
+              <label>状态<select id="detailStatus"><option value="wish">想看</option><option value="reading">正在相遇</option><option value="done">已完成</option><option value="paused">暂时停泊</option></select></label>
+              <label>评分<select id="detailRating"><option value="">暂不评分</option><option value="1">1 / 5</option><option value="2">2 / 5</option><option value="3">3 / 5</option><option value="4">4 / 5</option><option value="4.5">4.5 / 5</option><option value="5">5 / 5</option></select></label>
+            </div>
+            <button class="complete-work-button" id="detailComplete" type="button"><span>标记读完</span><small>在今天为这次相遇写下句点</small></button>
+            <blockquote id="detailQuote">“看完以后，想起了夏天。”</blockquote>
+            <dl>
+              <div><dt>第一次相遇</dt><dd id="detailFirst">2024.07.19</dd></div>
+              <div><dt>最近一次</dt><dd id="detailLatest">2026.09.28</dd></div>
+              <div><dt>留下痕迹</dt><dd id="detailTrace">4 个日子</dd></div>
+              <div id="detailCompletedRow" hidden><dt id="detailCompletedLabel">读完日期</dt><dd id="detailCompleted">—</dd></div>
+            </dl>
+            <button class="delete-work-button" id="detailDelete" type="button"><span>删除这部作品</span><small>便签与点亮记录也会一同移除</small></button>
+          </aside>
+
+          <div class="notes-stream">
+            <div class="stream-head"><div><p class="eyebrow">我的文字</p><h2 id="noteHeading">时间里的三张便签</h2></div><button id="newNote">＋ 新便签</button></div>
+            <form class="note-composer" id="noteForm" hidden>
+              <div><label for="noteDate">日期</label><input type="date" id="noteDate" required></div>
+              <div class="note-text-field"><label for="noteText">这一天想留下什么？</label><textarea id="noteText" rows="4" required></textarea></div>
+              <div><label for="noteTag">小标题（可选）</label><input type="text" id="noteTag" maxlength="10"></div>
+              <div class="composer-actions"><button type="button" id="cancelNote">取消</button><button type="submit">保存便签</button></div>
+            </form>
+            <div id="noteCards"></div>
+          </div>
+        </div>
+        <div class="page-number">05 <span>/</span> 05</div>
+      </section>
+
+      <section class="page page-me" id="me" aria-labelledby="me-title">
+        <div class="me-card">
+          <p class="eyebrow">ARCHIVE · 我</p>
+          <h1 id="me-title">我的档案</h1>
+          <p id="meDescription">你的记录会保存在私人云端，并在登录同一账号的设备之间同步。</p>
+          <div class="me-actions">
+            <button id="copyGuestLink" type="button">复制朋友体验链接</button>
+            <a href="./" target="_blank" rel="noopener">打开一个空宇宙 ↗</a>
+            <button data-page="home">回到今日</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="workModal" hidden>
+    <form class="work-modal" id="workForm" role="dialog" aria-modal="true" aria-labelledby="workModalTitle">
+      <button class="modal-close" id="closeWorkModal" type="button" aria-label="关闭">×</button>
+      <p class="eyebrow">NEW WORK · 手动录入</p>
+      <h2 id="workModalTitle">添加一部作品</h2>
+      <div class="form-grid">
+        <label class="full-field">作品名称<input id="workTitle" name="title" required maxlength="60" autocomplete="off"></label>
+        <label>类型<select id="workType" name="type"><option value="book">书</option><option value="movie">电影</option><option value="documentary">纪录片</option><option value="series">剧集</option><option value="other">其他</option></select></label>
+        <label>状态<select id="workStatus" name="status"><option value="wish">想看</option><option value="reading">正在相遇</option><option value="done">已完成</option><option value="paused">暂时停泊</option></select></label>
+        <label>作者 / 导演<input id="workCreator" name="creator" maxlength="50"></label>
+        <label>年份<input id="workYear" name="year" type="number" min="1000" max="2100" inputmode="numeric"></label>
+        <label class="full-field">我想留下的一句话<input id="workQuote" name="quote" maxlength="80" placeholder="可以以后再写"></label>
+        <label class="full-field cover-field">封面图片（可选，建议小于 2MB）<input id="workCover" name="cover" type="file" accept="image/*"><span class="cover-file-name" id="coverFileName">尚未选择图片</span></label>
+      </div>
+      <p class="storage-note" id="storageNote">记录会保存在你的私人云端。</p>
+      <div class="modal-actions"><button type="button" id="cancelWorkModal">取消</button><button type="submit">保存到我的档案</button></div>
+    </form>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
+
