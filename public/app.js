@@ -13,21 +13,6 @@ const paletteSets = [
 const typeLabels = { book: '书', movie: '电影', documentary: '纪录片', series: '剧集', other: '其他' };
 const statusLabels = { wish: '想看', reading: '正在相遇', done: '已完成', paused: '暂时停泊' };
 
-const defaultWorks = [
-  { id: 'seed', archive: '0042', title: '夜航西飞', english: 'WEST WITH THE NIGHT', type: 'book', year: '1942', creator: '柏瑞尔·马卡姆', status: 'wish', rating: '', quote: '“等一个合适的夜晚再出发。”', color: '#755d55', timelineColors: ['#a47b65', '#b4926d'], coverImage: null, createdAt: '2026-10-01', completedAt: null, lightDates: [], notes: [] },
-  {
-    id: 'four', archive: '0041', title: '四世同堂', english: 'FOUR GENERATIONS', type: 'book', year: '1949', creator: '老舍', status: 'reading', rating: '', quote: '“屋檐下的人，各自守着一点日常。”', color: '#765349', timelineColors: ['#b66f5c', '#c29a5f', '#87936d'], coverImage: null, createdAt: '2026-09-16', completedAt: null,
-    lightDates: ['2026-09-16','2026-09-17','2026-09-21','2026-09-25','2026-09-28','2026-10-02','2026-10-03','2026-10-04','2026-10-07','2026-10-08','2026-10-09','2026-10-10'],
-    notes: [{ date: '2026-09-16', text: '开篇的人很多，但胡同很快就有了自己的声音。', tag: '初见' }, { date: '2026-10-02', text: '这几章读得很慢。不是读不下去，只是不想匆忙经过。', tag: '' }, { date: '2026-10-10', text: '祁家的饭桌很小，外面的时代却一直挤进来。', tag: '第 12 天' }]
-  },
-  {
-    id: 'sea', archive: '0037', title: '海街日记', english: 'UMIMACHI DIARY', type: 'movie', year: '2015', creator: '是枝裕和', status: 'done', rating: '4.5', quote: '“看完以后，想起了夏天。”', color: '#657c7d', timelineColors: ['#668b9b', '#6f9584'], coverImage: null, createdAt: '2024-07-19', completedAt: '2024-07-21', lightDates: ['2024-07-19','2024-07-21','2026-09-28','2026-10-06'],
-    notes: [{ date: '2024-07-19', text: '四姐妹走过旧屋时，光从纸门落下来。那一刻突然觉得，家不是一个地方，而是一些一起生活过的细节。', tag: '初见' }, { date: '2024-07-21', text: '梅子酒还要等一年才能喝。原来有些东西，等待本身就是它的一部分。', tag: '' }, { date: '2026-09-28', text: '这次更注意到她们之间那些没有说出口的话。两年后的我，好像看见了另一部电影。', tag: '第二次相遇' }]
-  },
-  { id: 'pause', archive: '0040', title: '长日将尽', english: 'THE REMAINS OF THE DAY', type: 'book', year: '1989', creator: '石黑一雄', status: 'paused', rating: '', quote: '“没有结束，只是先把书签留在这里。”', color: '#59606a', timelineColors: ['#81768f'], coverImage: null, createdAt: '2026-10-04', completedAt: null, lightDates: ['2026-10-04','2026-10-05'], notes: [{ date: '2026-10-04', text: '管家用极其克制的语气讲述自己，反而让那些没说出口的部分更明显。', tag: '初见' }, { date: '2026-10-05', text: '先停在这里。不是放弃，只是现在还没有准备好继续。', tag: '' }] },
-  { id: 'portrait', archive: '0039', title: '燃烧女子的肖像', english: 'PORTRAIT OF A LADY ON FIRE', type: 'movie', year: '2019', creator: '瑟琳·席安玛', status: 'done', rating: '5', quote: '“记住一个人，也是在重新看她。”', color: '#8c6654', timelineColors: ['#a45f64'], coverImage: null, createdAt: '2026-10-08', completedAt: '2026-10-09', lightDates: ['2026-10-08','2026-10-09'], notes: [{ date: '2026-10-08', text: '她们互相观察，也互相改变。观看从来不是单向的。', tag: '初见' }, { date: '2026-10-09', text: '最后一个镜头没有回望，却把所有回忆都留在了脸上。', tag: '' }] }
-];
-
 const pages = [...document.querySelectorAll('.page')];
 const navLinks = [...document.querySelectorAll('.nav-link')];
 const appShell = document.getElementById('appShell');
@@ -37,7 +22,7 @@ const workModal = document.getElementById('workModal');
 const today = new Date();
 const todayISO = localISO(today);
 let timelineCursor = new Date(today.getFullYear(), today.getMonth(), 1);
-let activeWorkId = 'sea';
+let activeWorkId = '';
 let detailOrigin = 'universe';
 let recordFilter = 'all';
 let toastTimer;
@@ -127,6 +112,17 @@ function createCloudUI() {
   syncIndicator.setAttribute('role', 'status');
   syncIndicator.innerHTML = '<i></i><span>连接私人云端…</span>';
   document.querySelector('.sidebar-foot')?.prepend(syncIndicator);
+
+  const lockButton = document.createElement('button');
+  lockButton.className = 'archive-lock-button';
+  lockButton.type = 'button';
+  lockButton.textContent = '锁定档案';
+  lockButton.addEventListener('click', async () => {
+    lockButton.disabled = true;
+    await fetch('/api/session', { method: 'DELETE' });
+    location.replace('/');
+  });
+  document.querySelector('.sidebar-foot')?.appendChild(lockButton);
 
   migrationCard = document.createElement('section');
   migrationCard.className = 'migration-card';
@@ -508,7 +504,7 @@ document.getElementById('noteForm').addEventListener('submit', addNote);
 document.getElementById('detailStatus').addEventListener('change', event => { const work = findWork(activeWorkId); if (!work) return; work.status = event.target.value; work.completedAt = work.status === 'done' ? (work.completedAt || todayISO) : null; saveState(); renderDetail(work.id); renderUniverse(); renderRecords(); renderHome(); showToast(`状态已改为“${statusText(work)}”`); });
 document.getElementById('detailRating').addEventListener('change', event => { const work = findWork(activeWorkId); if (!work) return; work.rating = event.target.value; saveState(); showToast(work.rating ? `评分已保存：${work.rating} / 5` : '已暂时取消评分'); });
 document.getElementById('copyGuestLink').addEventListener('click', async () => {
-  const shareURL = IS_GUEST ? new URL('.', location.href).href : `${location.origin}/try`;
+  const shareURL = `${location.origin}/try`;
   try {
     await navigator.clipboard.writeText(shareURL);
     showToast('朋友体验链接已复制');
@@ -528,4 +524,3 @@ document.addEventListener('visibilitychange', () => {
 if (IS_GUEST) createGuestUI(); else createCloudUI();
 renderHome(); renderTimeline(); renderUniverse(); renderRecords(); routeFromHash(false);
 if (!IS_GUEST) refreshCloud();
-

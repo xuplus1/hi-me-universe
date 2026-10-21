@@ -1,13 +1,11 @@
 <!doctype html>
-<html lang="zh-CN" data-hi-me-mode="guest">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Hi！Me — 无需账号，在这台设备上开始一份自己的书影音档案。">
-  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Hi！Me — 一间会随着书、电影与时间慢慢生长的私人档案。">
   <meta name="theme-color" content="#f4efe4">
-  <title>Hi！Me · 创建我的空宇宙</title>
-  <link rel="icon" href="favicon.svg">
+  <title>Hi！Me · 私人书影音档案</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Shippori+Mincho+B1:wght@500;600&display=swap" rel="stylesheet">
@@ -31,18 +29,18 @@
 
       <div class="sidebar-foot">
         <span class="tiny-orbit"></span>
-        <p>私人档案<br><b>2026 — ∞</b></p>
+        <p>私人档案<br><b>正在生长</b></p>
       </div>
     </aside>
 
     <main class="stage">
       <section class="page page-home is-active" id="home" aria-labelledby="home-title">
         <div class="home-copy">
-          <p class="eyebrow" id="homeDate">星期日 · 2026.10.11</p>
+          <p class="eyebrow" id="homeDate">今天</p>
           <h1 id="home-title">今天，<br>和什么相遇？</h1>
 
           <section class="current-works" aria-label="正在相遇的作品">
-            <div class="work-label"><span></span>正在相遇 <small id="homeReadingCount">2 部作品</small></div>
+            <div class="work-label"><span></span>正在相遇 <small id="homeReadingCount">0 部作品</small></div>
             <div class="home-works-list" id="homeWorksList"></div>
           </section>
         </div>
@@ -53,12 +51,12 @@
           <span class="home-planet planet-one"><i></i></span>
           <span class="home-planet planet-two"><i></i></span>
           <span class="home-planet planet-three"><i></i></span>
-          <span class="window-date" id="homeWindowDate">10 · 11</span>
+          <span class="window-date" id="homeWindowDate">—</span>
           <span class="today-caption">我的今日</span>
           <span class="enter-caption">进入宇宙 <b>↗</b></span>
         </button>
 
-        <div class="margin-note note-one" id="homeNote">四世同堂 · 点亮 12 天<br>最近记录：10 月 10 日</div>
+        <div class="margin-note note-one" id="homeNote">还没有写下记录</div>
         <div class="page-number">01 <span>/</span> 05</div>
       </section>
 
@@ -66,7 +64,7 @@
         <header class="paper-header">
           <div>
             <p class="eyebrow">TIME · 我的时间</p>
-            <h1 id="timeline-title">2026 年 10 月</h1>
+            <h1 id="timeline-title">时间轴</h1>
           </div>
           <div class="month-switcher" aria-label="切换月份">
             <button id="prevMonth" aria-label="上个月">←</button><span id="timelineMonthLabel">十月</span><button id="nextMonth" aria-label="下个月">→</button>
@@ -97,12 +95,12 @@
         <div class="universe-objects" id="universeObjects"></div>
 
         <div class="hover-card" id="hoverCard" role="dialog" aria-label="作品小卡">
-          <div class="hover-cover" id="hoverCover"><span>海<br>街<br>日<br>记</span></div>
+          <div class="hover-cover" id="hoverCover"><span>作<br>品</span></div>
           <div>
-            <small id="hoverState">完成 · 成熟星球</small>
-            <h2 id="hoverTitle">海街日记</h2>
-            <p id="hoverQuote">“看完以后，想起了夏天。”</p>
-            <button id="hoverOpenDetail" data-open-detail="sea">打开这份记录 <span>↗</span></button>
+            <small id="hoverState">作品状态</small>
+            <h2 id="hoverTitle">作品</h2>
+            <p id="hoverQuote">还没有写下一句话。</p>
+            <button id="hoverOpenDetail" data-open-detail="">打开这份记录 <span>↗</span></button>
           </div>
         </div>
 
@@ -137,32 +135,32 @@
       <section class="page page-detail" id="detail" aria-labelledby="detail-title">
         <header class="detail-head">
           <button class="back-link" id="detailBack" data-page="universe">← 回到宇宙</button>
-          <p class="eyebrow" id="detailArchive">WORK · 作品档案 0037</p>
+          <p class="eyebrow" id="detailArchive">WORK · 作品档案</p>
         </header>
 
         <div class="detail-grid">
           <aside class="work-profile">
-            <div class="large-cover" id="detailCover"><span>海街日记</span><i>UMIMACHI DIARY</i></div>
-            <p class="work-kind" id="detailKind">电影 · 2015</p>
-            <h1 id="detail-title">海街日记</h1>
-            <p class="creator" id="detailCreator">是枝裕和</p>
+            <div class="large-cover" id="detailCover"><span>作品</span><i>WORK</i></div>
+            <p class="work-kind" id="detailKind">作品类型</p>
+            <h1 id="detail-title">作品</h1>
+            <p class="creator" id="detailCreator"></p>
             <div class="status-row editable-row">
               <label>状态<select id="detailStatus"><option value="wish">想看</option><option value="reading">正在相遇</option><option value="done">已完成</option><option value="paused">暂时停泊</option></select></label>
               <label>评分<select id="detailRating"><option value="">暂不评分</option><option value="1">1 / 5</option><option value="2">2 / 5</option><option value="3">3 / 5</option><option value="4">4 / 5</option><option value="4.5">4.5 / 5</option><option value="5">5 / 5</option></select></label>
             </div>
             <button class="complete-work-button" id="detailComplete" type="button"><span>标记读完</span><small>在今天为这次相遇写下句点</small></button>
-            <blockquote id="detailQuote">“看完以后，想起了夏天。”</blockquote>
+            <blockquote id="detailQuote">还没有写下一句话。</blockquote>
             <dl>
-              <div><dt>第一次相遇</dt><dd id="detailFirst">2024.07.19</dd></div>
-              <div><dt>最近一次</dt><dd id="detailLatest">2026.09.28</dd></div>
-              <div><dt>留下痕迹</dt><dd id="detailTrace">4 个日子</dd></div>
+              <div><dt>第一次相遇</dt><dd id="detailFirst">—</dd></div>
+              <div><dt>最近一次</dt><dd id="detailLatest">—</dd></div>
+              <div><dt>留下痕迹</dt><dd id="detailTrace">0 个日子</dd></div>
               <div id="detailCompletedRow" hidden><dt id="detailCompletedLabel">读完日期</dt><dd id="detailCompleted">—</dd></div>
             </dl>
             <button class="delete-work-button" id="detailDelete" type="button"><span>删除这部作品</span><small>便签与点亮记录也会一同移除</small></button>
           </aside>
 
           <div class="notes-stream">
-            <div class="stream-head"><div><p class="eyebrow">我的文字</p><h2 id="noteHeading">时间里的三张便签</h2></div><button id="newNote">＋ 新便签</button></div>
+            <div class="stream-head"><div><p class="eyebrow">我的文字</p><h2 id="noteHeading">时间里的便签</h2></div><button id="newNote">＋ 新便签</button></div>
             <form class="note-composer" id="noteForm" hidden>
               <div><label for="noteDate">日期</label><input type="date" id="noteDate" required></div>
               <div class="note-text-field"><label for="noteText">这一天想留下什么？</label><textarea id="noteText" rows="4" required></textarea></div>
@@ -179,10 +177,10 @@
         <div class="me-card">
           <p class="eyebrow">ARCHIVE · 我</p>
           <h1 id="me-title">我的档案</h1>
-          <p id="meDescription">你的记录会保存在私人云端，并在登录同一账号的设备之间同步。</p>
+          <p id="meDescription">你的记录会保存在私人云端，并在输入同一档案钥匙的设备之间同步。</p>
           <div class="me-actions">
             <button id="copyGuestLink" type="button">复制朋友体验链接</button>
-            <a href="./" target="_blank" rel="noopener">打开一个空宇宙 ↗</a>
+            <a href="/try" target="_blank" rel="noopener">打开一个空宇宙 ↗</a>
             <button data-page="home">回到今日</button>
           </div>
         </div>
@@ -213,4 +211,3 @@
   <script src="app.js"></script>
 </body>
 </html>
-

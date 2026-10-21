@@ -347,4 +347,18 @@ body.modal-open { overflow: hidden; }
   .page-records { padding: 35px 18px; }.records-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 14px; }.record-cover { height: 195px; padding: 18px 15px; }.record-filters { gap: 15px; overflow-x: auto; scrollbar-width: none; }.work-modal { padding: 38px 22px; width: min(630px, 96vw); }.form-grid { grid-template-columns: 1fr; }.full-field { grid-column: auto; }.note-composer { grid-template-columns: 1fr; }.note-text-field, .composer-actions { grid-column: auto; }.delete-work-button { align-items: flex-start; }.delete-work-button small { max-width: 145px; text-align: right; line-height: 1.6; }
   .toast { left: 50%; bottom: 78px; }
 }
+.archive-lock-button {
+  border: 0;
+  padding: 8px 0 0;
+  background: transparent;
+  color: rgba(245, 235, 218, 0.64);
+  font: 11px/1.5 "Noto Serif SC", serif;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.archive-lock-button:hover,
+.archive-lock-button:focus-visible {
+  color: #fff4df;
+}
 
