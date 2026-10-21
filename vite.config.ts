@@ -15,6 +15,9 @@ const localBindingConfig = {
           binding: d1,
           database_name: cloudResources.database_name,
           database_id: cloudResources.database_id,
+          // The emitted Wrangler file lives in dist/server, so migrations are
+          // referenced from there rather than from the project root.
+          migrations_dir: "../../drizzle",
         },
       ]
     : [],

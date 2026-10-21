@@ -74,7 +74,11 @@ export async function GET() {
       type: String(row.type), year: String(row.year ?? ""), creator: String(row.creator ?? ""),
       status: String(row.status), rating: String(row.rating ?? ""), quote: String(row.quote ?? ""),
       color: String(row.color), timelineColors: parseJsonArray(row.timeline_colors),
-      coverImage: row.cover_key ? `/api/covers/${encodeURIComponent(String(row.id))}?v=${encodeURIComponent(String(row.updated_at))}` : null,
+      coverImage: row.cover_key
+        ? String(row.cover_key).startsWith("data:image/")
+          ? String(row.cover_key)
+          : `/api/covers/${encodeURIComponent(String(row.id))}?v=${encodeURIComponent(String(row.updated_at))}`
+        : null,
       createdAt: String(row.created_at), completedAt: row.completed_at ? String(row.completed_at) : null,
       lightDates: lights.get(String(row.id)) ?? [], notes: notes.get(String(row.id)) ?? [],
     }));
@@ -92,7 +96,7 @@ export async function GET() {
 export async function PUT(request: Request) {
   const userId = await requireArchiveUser();
   if (!userId) return Response.json({ error: "请先登录后再同步私人档案" }, { status: 401 });
-  if (!env.DB || !env.BUCKET) return Response.json({ error: "云端存储尚未连接" }, { status: 503 });
+  if (!env.DB) return Response.json({ error: "云端数据库尚未连接" }, { status: 503 });
 
   try {
     const payload = await request.json() as { revision?: number; state?: { works?: WorkInput[] }; migration?: boolean };
@@ -118,11 +122,8 @@ export async function PUT(request: Request) {
       let coverKey = existingCovers.get(id) ?? null;
       if (!input.coverImage) coverKey = null;
       else if (input.coverImage.startsWith("data:image/")) {
-        const decoded = decodeCover(input.coverImage);
-        const digest = await crypto.subtle.digest("SHA-256", decoded.bytes);
-        const hash = [...new Uint8Array(digest)].map((part) => part.toString(16).padStart(2, "0")).join("").slice(0, 20);
-        coverKey = `covers/${userId}/${id}-${hash}.${decoded.extension}`;
-        await env.BUCKET.put(coverKey, decoded.bytes, { httpMetadata: { contentType: decoded.contentType, cacheControl: "private, max-age=86400" } });
+        decodeCover(input.coverImage);
+        coverKey = input.coverImage;
       }
       if (coverKey) retainedCoverKeys.add(coverKey);
 
@@ -170,10 +171,12 @@ export async function PUT(request: Request) {
       const latest = await env.DB.prepare("SELECT revision FROM user_settings WHERE user_id = ?").bind(userId).first<{ revision: number }>();
       return Response.json({ error: "另一台设备已更新档案", serverRevision: latest?.revision ?? currentRevision }, { status: 409 });
     }
-    await Promise.all(existingRows.results
-      .map((row) => row.cover_key)
-      .filter((key): key is string => Boolean(key) && !retainedCoverKeys.has(String(key)))
-      .map((key) => env.BUCKET!.delete(key)));
+    if (env.BUCKET) {
+      await Promise.all(existingRows.results
+        .map((row) => row.cover_key)
+        .filter((key): key is string => Boolean(key) && !String(key).startsWith("data:image/") && !retainedCoverKeys.has(String(key)))
+        .map((key) => env.BUCKET!.delete(key)));
+    }
 
     return Response.json({ revision: nextRevision, counts: { works: normalized.length, lights: lightCount, notes: noteCount } });
   } catch (error) {
@@ -185,7 +188,7 @@ function decodeCover(dataUrl: string) {
   const match = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(dataUrl);
   if (!match) throw new Error("封面图片格式不受支持");
   const binary = atob(match[2]);
-  if (binary.length > 4 * 1024 * 1024) throw new Error("封面图片请小于 4MB");
+  if (binary.length > 768 * 1024) throw new Error("压缩后的封面图片请小于 768KB");
   const bytes = new Uint8Array(binary.length);
   for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
   const extension = match[1] === "image/png" ? "png" : match[1] === "image/webp" ? "webp" : "jpg";
